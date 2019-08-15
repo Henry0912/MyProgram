@@ -22,11 +22,14 @@
 
 四：什麼是協同程序？
 在主線程運行的同時開啟另一段邏輯處理，來協助當前程序的執行，協程很像多線程，但是不是多線程，Unity的協程實在每幀結束之後去檢測yield的條件是否滿足。
+
 五：Unity3D中的碰撞器和触發器的區別？
 
 碰撞器是觸發器的載體，而觸發器只是碰撞器身上的一個屬性。當Is Trigger=false時，碰撞器根據物理引擎引發碰撞，產生碰撞的效果，可以調用OnCollisionEnter/Stay/Exit函數；當Is Trigger=true時，碰撞器被物理引擎所忽略，沒有碰撞效果，可以調用OnTriggerEnter/Stay/Exit函數。如果既要檢測到物體的接觸又不想讓碰撞檢測影響物體移動或要檢測一個物件是否經過空間中的某個區域這時就可以用到觸發器
+
 六：物體發生碰撞的必要條件？
 兩個物體都必須帶有碰撞器（Collider），其中一個物體還必須帶有Rigidbody剛體，而且必須是運動的物體帶有Rigidbody腳本才能檢測到碰撞。
+
 七：請簡述ArrayList和List的主要區別？
 ####ArrayList存在不安全類型（ArrayList會把所有插入其中的數據都當做Object來處理） 裝箱拆箱的操作（費時） List是接口，ArrayList是一個實現了該接口的類，可以被實例化
 
@@ -38,101 +41,140 @@
 九：OnEnable、Awake、Start運行時的發生順序？哪些可能在同一個對象週期中反复的發生
 
 Awake –>OnEnable->Start，OnEnable在同一周期中可以反复地發生。
+
 十：MeshRender中material和sharedmaterial的區別？
 修改sharedMaterial將改變所有物體使用這個材質的外觀，並且也改變儲存在工程裡的材質設置。不推薦修改由sharedMaterial返回的材質。如果你想修改渲染器的材質，使用material替代。
+
 十一：Unity提供了幾種光源，分別是什麼
 四種。
 平行光：Directional Light
 點光源：Point Light
 聚光燈：Spot Light
 區域光源：Area Light
+
 十二：簡述一下對像池，你覺得在FPS裡哪些東西適合使用對像池
 對像池就存放需要被反複調用資源的一個空間，當一個對象回大量生成的時候如果每次都銷毀創建會很費時間，通過對像池把暫時不用的對象放到一個池中（也就是一個集合），當下次要重新生成這個對象的時候先去池中查找一下是否有可用的對象，如果有的話就直接拿出來使用，不需要再創建，如果池中沒有可用的對象，才需要重新創建，利用空間換時間來達到遊戲的高速運行效果，在FPS遊戲中要常被大量複製的對象包括子彈，敵人，粒子等
+
 十三：CharacterController和Rigidbody的區別
 Rigidbody具有完全真實物理的特性，Unity中物理系統最基本的一個組件，包含了常用的物理特性，而CharacterController可以說是受限的的Rigidbody，具有一定的物理效果但不是完全真實的，是Unity為了使開發者能方便的開發第一人稱視角的遊戲而封裝的一個組件
+
 十四：簡述prefab的用處
 在遊戲運行時實例化，prefab相當於一個模板，對你已經有的素材、腳本、參數做一個默認的配置，以便於以後的修改，同時prefab打包的內容簡化了導出的操作，便於團隊的交流。
+
 十五：請簡述sealed關鍵字用在類聲明時與函數聲明時的作用
 sealed修飾的類為密封類，類聲明時可防止其他類繼承此類，在方法中聲明則可防止派生類重寫此方法。
+
 十六：請簡述private，public，protected，internal的區別
 public：對任何類和成員都公開，無限制訪問
 private：僅對該類公開
 protected：對該類和其派生類公開
 internal：只能在包含該類的程序集中訪問該類
+
 十七：使用Unity3d實現2d遊戲，有幾種方式？
 1. 使用本身的GUI，在Unity4.6以後出現的UGUI
 2.把攝像機的Projection(投影)值調為Orthographic(正交投影)，不考慮z軸；
 3.使用2d插件，如：2DToolKit，和NGUI
+
 十八：在物體發生碰撞的整個過程中，有幾個階段，分別列出對應的函數
 三個階段，1.OnCollisionEnter 2.OnCollisionStay 3.OnCollisionExit
+
 十九：Unity3d的物理引擎中，有幾種施加力的方式，分別描述出來
 rigidbody.AddForce/AddForceAtPosition，都在rigidbody系列函數中。大家可以自己去查看一下rigidbody的API
+
 二十：什麼叫做鏈條關節？
 Hinge Joint，可以模擬兩個物體間用一根鏈條連接在一起的情況，能保持兩個物體在一個固定距離內部相互移動而不產生作用力，但是達到固定距離後就會產生拉力。
+
 二十一：物體自身旋轉使用的函數？
 Transform.Rotate()
+
 二十二：Unity3d提供了一個用於保存和讀取數據的類(PlayerPrefs)，請列出保存和讀取整形數據的函數
 PlayerPrefs.SetInt() PlayerPrefs.GetInt()
+
 二十三：Unity3d腳本從喚醒到銷毀有著一套比較完整的生命週期，請列出系統自帶的幾個重要的方法。
 Awake——>OnEnable–>Start——>Update——>FixedUpdate——>LateUpdate——>OnGUI——>OnDisable——>OnDestroy
+
 二十四：物理更新一般放在哪個系統函數里？
 FixedUpdate，每固定幀繪製時執行一次，和Update不同的是FixedUpdate是渲染幀執行，如果你的渲染效率低下的時候FixedUpdate調用次數就會跟著下降。FixedUpdate比較適用於物理引擎的計算，因為是跟每幀渲染有關。Update就比較適合做控制。
+
 二十五：在場景中放置多個Camera並同時處於活動狀態會發生什麼？
 遊戲界面可以看到很多攝像機的混合。
+
 二十六：如何銷毀一個UnityEngine.Object及其子類？
 使用Destroy()方法;
+
 二十七：請描述為什麼Unity3d中會發生在組件上出現數據丟失的情況
 一般是組件上綁定的物體對像被刪除了
+
 二十八：LOD是什麼，優缺點是什麼？
 LOD(Level of detail)多層次細節，是最常用的遊戲優化技術。它按照模型的位置和重要程度決定物體渲染的資源分配，降低非重要物體的面數和細節度，從而獲得高效率的渲染運算。缺點是增加了內存。
+
 二十九：MipMap是什麼，作用？
 MipMapping：在三維計算機圖形的貼圖渲染中有常用的技術，為加快渲染進度和減少圖像鋸齒，貼圖被處理成由一系列被預先計算和優化過的圖片組成的文件，這樣的貼圖被稱為MipMap 。
+
 三十：請描述Interface與抽像類之間的不同
 抽像類表示該類中可能已經有一些方法的具體定義，但接口就是公公只能定義各個方法的界面，不能具體的實現代碼在成員方法中。類是子類用來繼承的，當父類已經有實際功能的方法時該方法在子類中可以不必實現，直接引用父類的方法，子類也可以重寫該父類的方法。實現接口的時候必須要實現接口中所有的方法，不能遺漏任何一個。
+
 三十一：.Net與Mono的關係？
 mono是.net的一個開源跨平台工具，就類似java虛擬機，java本身不是跨平台語言，但運行在虛擬機上就能夠實現了跨平台。.net只能在windows下運行，mono可以實現跨平台跑，可以運行於linux，Unix，Mac OS等。
+
 三十二：簡述Unity3D支持的作為腳本的語言的名稱
 Unity的腳本語言基於Mono的.Net平台上運行，可以使用.NET庫，這也為XML、數據庫、正則表達式等問題提供了很好的解決方案。Unity裡的腳本都會經過編譯，他們的運行速度也很快。這三種語言實際上的功能和運行速度是一樣的，區別主要體現在語言特性上。JavaScript、 C#、Boo
+
 三十三：U3D中用於記錄節點空間幾何信息的組件名稱，及其父類名稱
 Transform 父類是Component
+
 三十四：向量的點乘、叉乘以及歸一化的意義？
 1.點乘描述了兩個向量的相似程度，結果越大兩向量越相似，還可表示投影
 2.叉乘得到的向量垂直於原來的兩個向量
 3.標準化向量：用在只關係方向，不關心大小的時候
+
 三十五：為何大家都在移動設備上尋求U3D原生GUI的替代方案
 不美觀，OnGUI很耗費時間，效率不高，使用不方便
+
 三十六：請簡述如何在不同分辨率下保持UI的一致性
 NGUI很好的解決了這一點，屏幕分辨率的自適應性，原理就是計算出屏幕的寬高比跟原來的預設的屏幕分辨率求出一個對比值，然後修改攝像機的size。UGUI通過錨點和中心點和分辨率也解決這個問題
+
 三十七：什麼是LightMap？
 LightMap:就是指在三維軟件裡實現打好光，然後渲染把場景各表面的光照輸出到貼圖上，最後又通過引擎貼到場景上，這樣就使物體有了光照的感覺。
+
 三十八：Unity和cocos2d的區別
 1. Unity3D支持C#、javascript等，cocos2d-x 支持c++、Html5、Lua等。
 2. cocos2d 開源並且免費
 3. Unity3D支持iOS、Android、Flash、Windows、Mac、Wii等平台的遊戲開發，cocos2d-x支持iOS、Android、WP等。
+
 三十九：C#和C++的區別？
 簡單的說：C#與C++比較的話，最重要的特性就是C#是一種完全面向對象的語言，而C++不是，另外C#是基於IL中間語言和.NET Framework CLR的，在可移植性，可維護性和強壯性都比C++有很大的改進。C#的設計目標是用來開發快速穩定可擴展的應用程序，當然也可以通過Interop和Pinvoke完成一些底層操作。更詳細的區別大家可以參考這裡
+
 四十：結構體和類有何區別？
 結構體是一種值類型，而類是引用類型。（值類型、引用類型是根據數據存儲的角度來分的）就是值類型用於存儲數據的值，引用類型用於存儲對實際數據的引用。那麼結構體就是當成值來使用的，類則通過引用來對實際數據操作
+
 四十一：ref參數和out參數是什麼？有什麼區別？
 ref和out參數的效果一樣，都是通過關鍵字找到定義在主函數里面的變量的內存地址，並通過方法體內的語法改變它的大小。不同點就是輸出參數必須對參數進行初始化。ref必須初始化，out 參數必須在函數里賦值。ref參數是引用，out參數為輸出參數。
+
 四十二：C#的委託是什麼？有何用處？
 委託類似於一種安全的指針引用，在使用它時是當做類來看待而不是一個方法，相當於對一組方法的列表的引用。用處：使用委託使程序員可以將方法引用封裝在委託對象內。然後可以將該委託對像傳遞給可調用所引用方法的代碼，而不必在編譯時知道將調用哪個方法。與C或C++中的函數指針不同，委託是面向對象，而且是類型安全的。
+
 四十三：C#中的排序方式有哪些？
 選擇排序，冒泡排序，快速排序，插入排序，希爾排序，歸併排序
+
 四十四：射線檢測碰撞物的原理是？
 射線是3D世界中一個點向一個方向發射的一條無終點的線，在發射軌跡中與其他物體發生碰撞時，它將停止發射。
+
 四十五：Unity中，照相機的Clipping Planes的作用是什麼？調整Near、Fare兩個值時，應該注意什麼？
 剪裁平面。從相機到開始渲染和停止渲染之間的距離。
+
 四十六：如何讓已經存在的GameObject在LoadLevel後不被卸載掉？
 void Awake()
 {
     DontDestroyOnLoad(transform.gameObject);
 }
+
 四十七：請簡述GC（垃圾回收）產生的原因，並描述如何避免？
 GC回收堆上的內存
 避免：1.減少new產生對象的次數
 2.使用公用的對象（靜態成員）
 3.將String換為StringBuilder
+
 四十八：反射的實現原理？
 審查元數據並收集關於它的類型信息的能力。實現原理：在運行時根據程序集及其中的類型得到元數據。下面是實現步驟：
 1. 導入using System.Reflection;
@@ -146,20 +188,25 @@ foreach (Type type in assembly.GetTypes())
 5. Activator.CreateInstance(type); 創建此類型實例
 6. MethodInfo mInfo = type.GetMethod(“方法名”);獲取當前方法
 7. m.Info.Invoke(null,方法參數);
+
 四十九：簡述四元數的作用，四元數對歐拉角的優點？
 四元數用於表示旋轉
 相對歐拉角的優點：
 1.能進行增量旋轉
 2.避免萬向鎖
 3.給定方位的表達方式有兩種，互為負（歐拉角有無數種表達方式）
+
 五十：移動相機動作在哪個函數里，為什麼在這個函數里？
 LateUpdate，是在所有的update結束後才調用，比較適合用於命令腳本的執行。官網上例子是攝像機的跟隨，都是所有的update操作完才進行攝像機的跟進，不然就有可能出現攝像機已經推進了，但是視角里還未有角色的空幀出現。
+
 五十一：GPU的工作原理
 簡而言之，GPU的圖形（處理）流水線完成如下的工作：（並不一定是按照如下順序） 頂點處理：這階段GPU讀取描述3D圖形外觀的頂點數據並根據頂點數據確定3D圖形的形狀及位置關係，建立起3D圖形的骨架。在支持DX8和DX9規格的GPU中，這些工作由硬件實現的Vertex Shader（定點著色器）完成。光柵化計算：顯示器實際顯示的圖像是由像素組成的，我們需要將上面生成的圖形上的點和線通過一定的算法轉換到相應的像素點。把一個矢量圖形轉換為一系列像素點的過程就稱為光柵化。例如，一條數學表示的斜線段，最終被轉化成階梯狀的連續像素點。紋理帖圖：頂點單元生成的多邊形只構成了3D物體的輪廓，而紋理映射（texture mapping）工作完成對多變形表面的帖圖，通俗的說，就是將多邊形的表面貼上相應的圖片，從而生成“真實”的圖形。TMU（Texture mapping unit）即是用來完成此項工作。像素處理：這階段（在對每個像素進行光柵化處理期間）GPU完成對像素的計算和處理，從而確定每個像素的最終屬性。在支持DX8和DX9規格的GPU中，這些工作由硬件實現的Pixel Shader（像素著色器）完成。最終輸出：由ROP（光柵化引擎）最終完成像素的輸出，1幀渲染完畢後，被送到顯存幀緩衝區。
 總結：GPU的工作通俗的來說就是完成3D圖形的生成，將圖形映射到相應的像素點上，對每個像素進行計算確定最終顏色並完成輸出。
+
 五十二：什麼是渲染管道？
 是指在顯示器上為了顯示出圖像而經過的一系列必要操作。渲染管道中的很多步驟，都要將幾何物體從一個坐標系中變換到另一個坐標系中去。主要步驟有：
 本地坐標->視圖坐標->背面裁剪->光照->裁剪->投影->視圖變換->光柵化
+
 五十三：如何優化內存？
 有很多種方式，例如
 1.壓縮自帶類庫；
@@ -168,27 +215,34 @@ LateUpdate，是在所有的update結束後才調用，比較適合用於命令�
 4.降低模型的片面數，降低模型的骨骼數量，降低貼圖的大小；
 5.使用光照貼圖，使用多層次細節(LOD)，使用著色器(Shader)，使用預設(Prefab)。
 6.代碼中少產生臨時變量
+
 五十四：動態加載資源的方式？他們之間的區別
 1.Resources.Load();
 2.AssetBundle
 區別參考
+
 五十五：請描述遊戲動畫有哪幾種，以及其原理？
 主要有關節動畫、骨骼動畫、單一網格模型動畫(關鍵幀動畫)。
 關節動畫：把角色分成若干獨立部分，一個部分對應一個網格模型，部分的動畫連接成一個整體的動畫，角色比較靈活，Quake2中使用這種動畫；
 骨骼動畫，廣泛應用的動畫方式，集成了以上兩個方式的優點，骨骼按角色特點組成一定的層次結構，有關節相連，可做相對運動，皮膚作為單一網格蒙在骨骼之外，決定角色的外觀；
 單一網格模型動畫由一個完整的網格模型構成，在動畫序列的關鍵幀裡記錄各個頂點的原位置及其改變量，然後插值運算實現動畫效果，角色動畫較真實。
+
 五十六：alpha blend工作原理
 Alpha Blend 實現透明效果，不過只能針對某塊區域進行alpha操作，透明度可設。
+
 五十七：寫出光照計算中的diffuse的計算公式
 diffuse = Kd x colorLight x max(N*L,0)；Kd 漫反射係數、colorLight 光的顏色、N 單位法線向量、L 由點指向光源的單位向量、其中N與L點乘，如果結果小於等於0，則漫反射為0。
+
 五十八：兩種陰影判斷的方法、工作原理。
 本影和半影：參考本影和半影
 本影：景物表面上那些沒有被光源直接照射的區域（全黑的輪廓分明的區域）。
 半影：景物表面上那些被某些特定光源直接照射但並非被所有特定光源直接照射的區域（半明半暗區域）
 工作原理：從光源處向物體的所有可見面投射光線，將這些面投影到場景中得到投影面，再將這些投影面與場景中的其他平面求交得出陰影多邊形，保存這些陰影多邊形信息，然後再按視點位置對場景進行相應處理得到所要求的視圖（利用空間換時間，每次只需依據視點位置進行一次陰影計算即可，省去了一次消隱過程）
+
 五十九：Vertex Shader是什麼，怎麼計算？
 頂點著色器是一段執行在GPU上的程序，用來取代fixed pipeline中的transformation和lighting，Vertex Shader主要操作頂點。
 Vertex Shader對輸入頂點完成了從local space到homogeneous space（齊次空間）的變換過程，homogeneous space即projection space的下一個space。在這其間共有world transformation, view transformation和projection transformation及lighting幾個過程。
+
 六十：下列代碼在運行中會產生幾個臨時對象？
 string a = new string("abc");
 a = (a.ToUpper() + "123").Substring(0, 2);   
@@ -196,6 +250,7 @@ a = (a.ToUpper() + "123").Substring(0, 2);
 應該這樣初始化：
 string b = new string(new char[]{'a','b','c'});
 答案為：5個臨時對象
+
 六十一：下列代碼在運行中會發生什麼問題？如何避免？
 List<int> ls = new List<int>(new int[] { 1, 2, 3, 4, 5 });
 foreach (int item in ls)
@@ -204,37 +259,47 @@ foreach (int item in ls)
     ls.Remove(item);
 }  
 產生運行時錯誤，在ls.Remove(item)這行，因為foreach是只讀的。不能一邊遍歷一邊修改。
+
 六十二：Unity3D是否支持寫成多線程程序？如果支持的話需要注意什麼？
 僅能從主線程中訪問Unity3D的組件，對象和Unity3D系統調用
 支持：如果同時你要處理很多事情或者與Unity的對象互動小可以用thread,否則使用coroutine。
 注意：C#中有lock這個關鍵字,以確保只有一個線程可以在特定時間內訪問特定的對象
+
 六十三：Unity3D的協程和C#線程之間的區別是什麼？
 多線程程序同時運行多個線程，而在任一指定時刻只有一個協程在運行，並且這個正在運行的協同程序只在必要時才被掛起。除主線程之外的線程無法訪問Unity3D的對象、組件、方法。
 Unity3d沒有多線程的概念，不過unity也給我們提供了StartCoroutine（協同程序）和LoadLevelAsync（異步加載關卡）後台加載場景的方法。StartCoroutine為什麼叫協同程序呢，所謂協同，就是當你在StartCoroutine的函數體里處理一段代碼時，利用yield語句等待執行結果，這期間不影響主程序的繼續執行，可以協同工作。
+
 六十四：矩陣相乘的意義及注意點
 用於表示線性變換：旋轉、縮放、投影、平移、仿射
 注意矩陣的蠕變：誤差的積累
+
 六十五：為什麼dynamic font在unicode環境下優於static font
 Unicode是國際組織製定的可以容納世界上所有文字和符號的字符編碼方案。
 使用動態字體時，Unity將不會預先生成一個與所有字體的字符紋理。當需要支持亞洲語言或者較大的字體的時候，若使用正常紋理，則字體的紋理將非常大。
+
 六十六：當一個細小的高速物體撞向另一個較大的物體時，會出現什麼情況？如何避免？
 穿透（碰撞檢測失敗）
+
 六十七：請簡述OnBecameVisible及OnBecameInvisible的發生時機，以及這一對回調函數的意義？
 當物體是否可見切換之時。可以用於只需要在物體可見時才進行的計算。
+
 六十八：什麼叫動態合批？跟靜態合批有什麼區別？
 如果動態物體共用著相同的材質，那麼Unity會自動對這些物體進行批處理。動態批處理操作是自動完成的，並不需要你進行額外的操作。
 區別：動態批處理一切都是自動的，不需要做任何操作，而且物體是可以移動的，但是限制很多。靜態批處理：自由度很高，限制很少，缺點可能會佔用更多的內存，而且經過靜態批處理後的所有物體都不可以再移動了。
 參考
+
 六十九：簡述StringBuilder和String的區別？
 String是字符串常量。
 StringBuffer是字符串變量，線程安全。
 StringBuilder是字符串變量，線程不安全。
 String類型是個不可變的對象，當每次對String進行改變時都需要生成一個新的String對象，然後將指針指向一個新的對象，如果在一個循環裡面，不斷的改變一個對象，就要不斷的生成新的對象，所以效率很低，建議在不斷更改String對象的地方不要使用String類型。
 StringBuilder對像在做字符串連接操作時是在原來的字符串上進行修改，改善了性能。這一點我們平時使用中也許都知道，連接操作頻繁的時候，使用StringBuilder對象。
+
 七十：Unity3D Shader分哪幾種，有什麼區別？
 表面著色器的抽象層次比較高，它可以輕鬆地以簡潔方式實現複雜著色。表面著色器可同時在前向渲染及延遲渲染模式下正常工作。
 頂點片段著色器可以非常靈活地實現需要的效果，但是需要編寫更多的代碼，並且很難與Unity的渲染管線完美集成。
 固定功能管線著色器可以作為前兩種著色器的備用選擇，當硬件無法運行那些酷炫Shader的時，還可以通過固定功能管線著色器來繪製出一些基本的內容。
+
 七十一：已知strcpy函數的原型是：char * strcpy(char * strDest,const char * strSrc); 1.不調用庫函數，實現strcpy函數。2.解釋為什麼要返回char *
  
 char * strcpy(char * strDest,const char * strSrc)
@@ -245,6 +310,7 @@ char * strcpy(char * strDest,const char * strSrc)
     while ((*strDest++=*strSrc++)!='\0');
     return strDestCopy;
 }
+
 七十二：C#中四種訪問修飾符是哪些？各有什麼區別？
 1.屬性修飾符2.存取修飾符3.類修飾符4.成員修飾符。
 屬性修飾符：
@@ -271,10 +337,12 @@ readonly：指示一個域只能在聲明時以及相同類的內部被賦值。
 static：指示一個成員屬於類型本身，而不是屬於特定的對象。即在定義後可不經實例化，就可使用。
 virtual：指示一個方法或存取器的實現可以在繼承類中被覆蓋。
 new：在派生類中隱藏指定的基類成員，從而實現重寫的功能。若要隱藏繼承類的成員，請使用相同名稱在派生類中聲明該成員，並用new 修飾符修飾它。
+
 七十三：Heap與Stack有何區別？
 1.heap是堆，stack是棧。
 2.stack的空間由操作系統自動分配和釋放，heap的空間是手動申請和釋放的，heap常用new關鍵字來分配。
 3.stack空間有限，heap的空間是很大的自由區。
+
 七十四：值類型和引用類型有何區別？
 1.值類型的數據存儲在內存的棧中；引用類型的數據存儲在內存的堆中，而內存單元中只存放堆中對象的地址。
 2.值類型存取速度快，引用類型存取速度慢。
@@ -282,6 +350,7 @@ new：在派生類中隱藏指定的基類成員，從而實現重寫的功能�
 4.值類型繼承自System.ValueType，引用類型繼承自System.Object
 5.棧的內存分配是自動釋放；而堆在.NET中會有GC來釋放
 6.值類型的變量直接存放實際的數據，而引用類型的變量存放的則是數據的地址，即對象的引用。
+
 七十五：請寫出求斐波那契數列任意一位的值得算法
 遞歸實現：
  
@@ -294,6 +363,7 @@ int Fib5(int index)
 {
     if(index
 參看更多實現方法
+
 七十六：協同程序的執行代碼是什麼？有何用處，有何缺點？
  
 function Start() { 
@@ -310,28 +380,38 @@ function WaitAndPrint (waitTime : float) {
  
 作用：一個協同程序在執行過程中,可以在任意位置使用yield語句。yield的返回值控制何時恢復協同程序向下執行。協同程序在對象自有幀執行過程中堪稱優秀。協同程序在性能上沒有更多的開銷。
 缺點：協同程序並非真線程，可能會發生堵塞。
+
 七十七：什麼是里氏代換元則？
 里氏替換原則(Liskov Substitution Principle LSP)面向對象設計的基本原則之一。通俗點：就是子類對象可以賦值給基類對象，基類對像不能賦值給子類對象
 參考
+
 七十八：Mock和Stub有何區別？
 Mock與Stub的區別：Mock:關注行為驗證。細粒度的測試，即代碼的邏輯，多數情況下用於單元測試。Stub：關注狀態驗證。粗粒度的測試，在某個依賴系統不存在或者還沒實現或者難以測試的情況下使用，例如訪問文件系統，數據庫連接，遠程協議等。
+
 七十九：概述序列化：
 序列化簡單理解成把對象轉換為容易傳輸的格式的過程。比如，可以序列化一個對象，然後使用HTTP通過Internet在客戶端和服務器端之間傳輸該對象
+
 八十：堆和棧的區別？
 棧通常保存著我們代碼執行的步驟，如在代碼段1中AddFive()方法，int pValue變量，int result變量等等。而堆上存放的則多是對象，數據等。我們可以把棧想像成一個接著一個疊放在一起的盒子。當我們使用的時候，每次從最頂部取走一個盒子。棧也是如此，當一個方法（或類型）被調用完成的時候，就從棧頂取走，接著下一個。堆則不然，像是一個倉庫，儲存著我們使用的各種對像等信息，跟棧不同的是他們被調用完畢不會立即被清理掉。
+
 八十一：概述c#中代理和事件？
 代理就是用來定義指向方法的引用。
 C＃事件本質就是對消息的封裝，用作對象之間的通信；發送方叫事件發送器，接收方叫事件接收器
+
 八十二：客戶端與服務器交互方式有幾種？
 socket通常也稱作”套接字”,實現服務器和客戶端之間的物理連接，並進行數據傳輸，主要有UDP和TCP兩個協議。Socket處於網絡協議的傳輸層。
 http協議傳輸的主要有http協議和基於http協議的Soap協議（web service）,常見的方式是http 的post 和get 請求，web 服務。
+
 八十三：Unity和Android與iOS如何交互？
 Unity可以到處Android和iOS的工程，然後通過安卓或者iOS的類去給Unity發消息，調用Unity中的方法
+
 八十四：如何在Unity3D中查看場景的面試，頂點數和Draw Call數？如何降低Draw Call數？
 在Game視圖右上角點擊Stats。降低Draw Call 的技術是Draw Call Batching
 這個在5.0以後在window-》Profiler下面，快捷鍵是cmd + 7（ctl + 7
+
 八十五：請問alpha test在何時使用？能達到什麼效果？
 Alpha Test ,中文就是透明度測試。簡而言之就是V&F shader中最後fragment函數輸出的該點顏色值（即上一講frag的輸出half4）的alpha值與固定值進行比較。AlphaTest語句通常於Pass{}中的起始位置。Alpha Test產生的效果也很極端，要么完全透明，即看不到，要么完全不透明。
+
 八十六：UNITY3d在移動設備上的一些優化資源的方法
 1.使用assetbundle，實現資源分離和共享，將內存控製到200m之內，同時也可以實現資源的在線更新
 2.頂點數對渲染無論是cpu還是gpu都是壓力最大的貢獻者，降低頂點數到8萬以下，fps穩定到了30幀左右
@@ -355,92 +435,120 @@ NUGI的代碼效率很差，基本上runtime的時候對cpu的貢獻和render不
 17.代碼剪裁：使用strip level ，使用.net2.0 subset
 18.盡量減少smooth group
 19.給美術定一個嚴格的經過科學驗證的美術標準，並在U3D裡面配以相應的檢查工具
+
 八十七：四元數有什麼作用？
 對旋轉角度進行計算時用到四元數
+
 八十八：將Camera組件的ClearFlags選項選成Depth only是什麼意思？有何用處？
 如果把攝像機的ClearFlags勾選為Deapth Only,那麼攝像機就會只渲染看得見的對象，把背景會完全透明，這種情況一般用在兩個攝像機以上的場景中
+
 八十九：在編輯場景時將GameObject設置為Static有何作用？
 設置遊戲對象為Static時，這些部分被靜態物體擋住而不可見時，將會剔除（或禁用）網格對象。因此，在你的場景中的所有不會動的物體都應該標記為Static。
+
 九十：有A和B兩組物體，有什麼辦法能夠保證A組物體永遠比B組物體先渲染？
 把A組物體的渲染對列大於B物體的渲染隊列，通過shader裡面的渲染隊列來渲染
+
 九十一：將圖片的TextureType選項分別選為““Texture”和“Sprite”有什麼區別
 Sprite作為UI精靈使用，Texture作用模型貼圖使用。Sprite需要2的整次冪，打包圖片省資源
+
 九十二：問一個Terrain，分別貼3張，4張，5張地表貼圖，渲染速度有什麼區別？為什麼？
 沒有區別，因為不管幾張貼圖只渲染一次。
+
 九十三：什麼是DrawCall？DrawCall高了又什麼影響？如何降低DrawCall？
 Unity中，每次引擎準備數據並通知GPU的過程稱為一次Draw Call。DrawCall越高對顯卡的消耗就越大。降低DrawCall的方法：
 1. Dynamic Batching
 2. Static Batching
 3. 高級特性Shader降級為統一的低級特性的Shader。
+
 九十四：實時點光源的優缺點是什麼？
 可以有cookies – 帶有alpha通道的立方圖(Cubemap )紋理。點光源是最耗費資源的。
+
 九十五：Unity的Shader中，Blend SrcAlpha OneMinusSrcAlpha這句話是什麼意思？
 作用就是Alpha混合。公式：最終顏色= 源顏色x 源透明值+ 目標顏色x（1 - 源透明值）
+
 九十六：簡述水面倒影的渲染原理
 原理就是對水面的貼圖紋理進行擾動，以產生波光玲玲的效果。用shader可以通過GPU在像素級別作擾動，效果細膩，需要的頂點少，速度快
+
 九十七：簡述NGUI中Grid和Table的作用？
 對Grid和Table下的子物體進行排序和定位
+
 九十八：請簡述NGUI中Panel和Anchor的作用
 1. 只要提供一個half-pixel偏移量，它可以讓一個控件的位置在Windows系統上精確的顯示出來（只有這個Anchor的子控件會受到影響）
 2. 如果掛載到一個對像上，那麼他可以將這個對象依附到屏幕的角落或者邊緣
 3.UIPanel用來收集和管理它下面所有widget的組件。通過widget的geometry創建實際的draw call。沒有panel所有東西都不能夠被渲染出來,你可以把UIPanel當做Renderer
+
 九十九：能用foreach遍歷訪問的對象需要實現_接口或聲明____方法的類型
 IEnumerable；GetEnumerator
 第二部分
 1.以下哪一個選項不屬於Unity引擎所支持的視頻格式文件（D）
 A.後綴為mov的文件B.後綴為mpg的文件
 C.後綴為avi的文件D.後綴為swf的文件
+
 2.Unity引擎使用的是左手坐標系還是右手坐標系（A）
 A.左手坐標系B.右手坐標系
 C.可以通過ProjectSetting切換右手坐標系D.可以通過Reference切換左手坐標系
+
 3.什麼是導航網格（NavMesh）（B）
 A.一種用於描述相機軌蹟的網格B.一種用於實現自動尋址的網格
 C.一種被優化過的物體網格D.一種用於物理碰撞的網格
+
 4.下列選項中有關Animator的說法錯誤的是？（D）
 A.Animator是Unity引擎中內置的組件
 B.任何一個具有動畫狀態機功能的GameObject都需要一個Anim組件
 C.它主要用於角色行為的設置，包括StateMachine、混合樹BlendTrees以及同通過腳本控制的事件
 D.Animator同Animation組件的用法是相同的
+
 5.Application.loadLevel命令為（A）
 A.加載關卡B.異步加載關卡C.加載動作D.加載動畫
+
 6.下列選項中，關於Transform組件的Scale參數描述正確的是（A）
 A.Transform組件的Scale參數不會影響ParticleSystem產生粒子的大小
 B.Transform組件的Scale參數不會影響GUITexture的大小
 C.添加Collider組件後的GameoObject，其Collider 組件的尺寸不受Transform組件的Scale參數影響
 D.添加Rigidbody組件後的物體，大小將不再受Transform組件中Scale 參數的影響
+
 7.在 Unity 中的场景中创建 Camera 时，默认情况下除了带有Transform、Camera、GUILayer、Flare Layer 组件之外，还带有以下哪种组件（C）
 A.Mouse Look B.FPS Input Controller C.Audio Listener D.Character Motor
+
 8.如果将一个声音剪辑文件从Project 视图拖动到 Inspector 视图或者 Scene 视图中的游戏对象上，该游戏对象会自动添加以下哪种组件（C）
 A.Audio Listener B.Audio Clip C.Audio Source D.Audio Reverb Zone
+
 9.下列叙述中有关 Prefab 说法错误的是哪一项（B）
 A.Prefab 是一种资源类型 B.Prefab 是一种可以反复使用的游戏对象
 C.Prefab 可以多次在场景进行实例 D.当一个 Prefab 添加到场景中时，也就是创建了它的一个实例
+
 10.关于 MonoBehaviour.LateUpdate 函数描述错误的是：（B）
 A.当 MonoBehaviour 类被启用后，每帧调用一次
 B.常被用于处理 Rigidbody 的更新
 C.在所有 Update 函数执行后才能被调用
 D.常被用于实现跟随相机效果，且目标物体的位置已经在 Update 函数中被更新
+
 11.下列哪个函数不属于碰撞事件（C）
 A.OnCollisionEnter B.OnCollisionExit
 C.OnCollisionUpdate D.OnCollisionStay
+
 12.以下关于 MonoBehaviour.OnGUI()的描述错误的是（D）
 A.如果 MonoBehaviour 没有被启用，则OnGUI函数不会被调用
 B.用于绘制和处理 GUI events
 C.每帧可能会被绘制多次，每次对应于一个 GUI event
 D.每帧被调用一次
+
 13.以下哪組攝像機中Normalized View Port Rect 的數值設置可以使攝像機顯示的畫面位於1280*720分辨率的屏幕畫面右上角（D）
 AX=640,Y=360,W=640,H=360 BX=640,Y=0,W=640,H=360
 CX=0,Y=0,W=0.5,H=0.5 DX=0.5,Y=0.5,W=0.5,H=0.5
+
 14.在Unity引擎中，Collider所指的是什麼（D）
 A.collider 是Unity引擎中所支持的一種資源，可用作存儲網格信息
 B.Collider 是Unity引擎中內置的一種組件，可用對網格進行渲染
 C.Collider 是Unity引擎中所支持的一種資源，可用作遊戲對象的坐標轉換
 D.Collider 是Unity引擎中內置的一種組件，可用作遊戲對象之間的碰撞檢測
+
 15.以下關於WWW.LoadFromCacheOrDownload描述正確的是（C）
 A.可被用於將Text Assets 自動緩存到本地磁盤
 B.可被用於將Resource 自動緩存到本地磁盤
 C.可被用於將Asset Bundles 自動緩存到本地磁盤
 D.可被用於將任意格式的Unity資源文件自動緩存到本地磁盤
+
 16.如何實現加載外部視頻並播放？
 外部視頻文件：目前測試僅支持ogg格式（設置網絡獲取視頻時，必須將MIME設置.ogg為application/octet-stream）
 場景設置：MainCamera上添加AudioSource腳本；播放物體上（如Plane）添加MovieTest腳本
@@ -507,183 +615,69 @@ public class MovieTest : MonoBehaviour
         movTexture.loop = true;
     }  
 } 
- 
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30
-31
-32
-33
-34
-35
-36
-37
-38
-39
-40
-41
-42
-43
-44
-45
-46
-47
-48
-49
-50
-51
-52
-53
-54
-55
-56
-57
-58
-59
-60
-61
-62
-63
-64
+
 17.游戏对象B是游戏对象A的子物体，游戏对象A经过了旋转，请写出游戏B围绕自身的Y轴进行旋转的脚本语句，以及游戏对象B围绕世界坐标的Y轴旋转的脚本语句。
 绕世界坐标旋转：transform.Rotate (transform.up*speed*Time.deltatime);
 绕自身Y轴旋转：transform.Rotate (Vector.up*speed*Time.deltatime);
+
 18.Unity中用过哪些插件？具体功能
 FXMaker，制作粒子特效；NGUI，制作2D界面；EasyTouch，摇杆；shaderForge，制作shader；Itween，制作动画；
+
 19.当删除Unity工程Assets目录下地meta文件时会导致什么？为什么？
 会导致在场景中游戏对象看不到，或者报错，材质找不到资源。多人协作的时候会导致资源的重复产生。因为每个资源文件都对应一个.meta文件，这个.meta文件中的guid就是唯一标识这个资源的。材质就是通过这个guid来记录自己使用了那些资源，而且同一个资源的guid会因为不同的电脑而不同，所以当你上传了丢失了.meta文件的资源的时候，到了别人的机器上就会重新产生guid，那个这个资源就相当于垃圾了。
+
 20.频繁创建GameObject会降低程序性能为什么？怎么解决？
 频繁创建游戏对象，会增加游戏的Drawcall数，降低帧率，GPU会一直在渲染绘制。可以通过对象池来管理对象：当需要创建一个游戏对象时，先去对象池中查找一下对象池中是否存在没有被正在使用的对象，如果有的话直接使用这个对象，并把它标记为正在使用，没有话就创建一个，并把它添加到池中，然后标记为使用中。一个游戏对象使用完毕的时候，不要销毁掉，把它放在池中，标记为未使用。
 ——————————-
+
 21.关于Vector3 的API，以下说法正确的是（BC）
 A.Vector3.normalize 可以获取一个三维向量的法线向量
 B.Vector3.magnitude 可以获取一个三维向量的长度
 C.Vector3.forward 與Vector3(0,0,1)是一樣的意思
 D.Vector3.Dot(向量A,向量B)是用來計算向量A與向量B的叉乘
+
 22.以下哪個函數在遊戲進入新場景後會被馬上調用（B​​）
 A.MonoBehaviour.OnSceneWastLoaded()
 B.MonoBehaviour.OnSceneEnter()
 C.MonoBehaviour.OnLevelEnter()
 D.MonoBehaviour.OnLevelWastLoaded()
+
 23.採用Input.mousePosition 來獲取鼠標在屏幕上的位置，以下表達正確的是（C）
 A.左上角為原點（0，0），右下角為（Screen.Width, Screen.Height）
 B.左下角為原點（0，0），右下角為（Screen.Height, Screen.Width）
 C.左下角為原點（0，0），右上角為（Screen.Width, Screen.Height）
 D.左上角為原點（0，0），右下角為（Screen.Height, Screen.Width）
+
 24.如何通過腳本來刪除其自身對應的Gameobject（A）
 A.Destroy(gameObject) B.this.Destroy()
 C.Destroy(this) D.其他三項都可以
+
 25.某個GameObject有一個名為MyScript的腳本，該腳本中有一個名為DoSomething 的函數，則如何在該Gameobject的另外一個腳本中調用該函數？（A）
 A.GetComponent().DoSomething()
 B.GetComponent
 C.GetComponent().Call(“DoSomething”)
 D.GetComponent
+
 26.Animator.CrossFade 命令作用是：（B）
 A.動畫放大B.動畫轉換C.Update() D.OnMouseButton()
+
 27.OnEnable,Awake,Start 運行時的發生順序？（A）
 A.Awake->OnEnable->Start B.Awake->Start->OnEable
 C.OnEnable-Awake->Start D.Start->OnEnable->Awake
+
 28.以下選項中，正確的是（D）
 A.Mathf.Round方法作用是限制B.Mathf.Clamp方法作用是插值
 C.Mathf.Lerp方法作用是四捨五入D.Mathf.Abs方法作用是取得絕對值
+
 29.以下選項中，將游戲對象繞Z軸逆時針旋轉90度（C）
 A.transform.rotation = Quaternion.Euler(0,0,90)
 B.transform.rotation = Quaternion.Angle(0,0,90)
 C.transform.Rotate(new Vector3(0,0,90))
 D.transform.Rotate(new Vector3(90,0,0))
+
 30.public static function InitializeServer(connections:int,listenPort:int,useNat:bool):NetworkConnectionError;解釋一下函數，參數以及返回值的意思。
 初始化服務器。connections是允許的入站連接或玩家的數量，listenPort是要監聽的端口，useNat設置NAT穿透功能。如果你想要這個服務器能夠接受連接使用NAT穿透，使用facilitator，設置這個為true。如果有錯誤會有返回錯誤。
+
 31.請寫出以下函數的含義和運算結果
 delegate b Func<a, b>(a a1);
 static void Main(string[] args)
@@ -692,6 +686,7 @@ static void Main(string[] args)
     Console.WriteLine(mFunc(6));
 }
 false，就是定義一個delegate，返回值類型為b，有一個參數，類型為a。
+
 32.編寫一個函數，輸入一個32位整數，計算這個整數有多少個bit為1.
 uint BitCount (uint n)
 {
@@ -703,8 +698,10 @@ uint BitCount (uint n)
     }
     return c;
 }
+
 33.某遊戲中的裝備系統有16種附加屬性，每種附加屬性使用一個32位的ID表示(比如10001表示加人物hp的附加屬性，10002表示加人物mp的附加屬性），一件裝備做多有4個附加屬性，請寫一個程序輸出所有附加屬性的組合。
 #
+
 34.請實現如下函數，在Unity中有一副骨骼樹，請使用遞歸方式與非遞歸方式實現先序遍歷，在Unity的Console輸出所有骨骼名。
 可能用到的函數
 public Transform GetChild（int index）;
@@ -713,24 +710,35 @@ public void OutputTree(Transform root)
 {
 }
 #
+
 35.簡要解釋下數據庫中ACID的含義。
 ACID是指在可靠數據庫管理系統（DBMS）中，事務所具有的四個特性：原子性（Atomicity）、一致性（Consistency）、隔離性（Isolation）、持久性（Durability）。
 原子性是指事務是一個不可分割的工作單位，事務中的操作要么都發生，要么都不發生。
 一致性是指在事務開始之前和事務結束以後，數據庫的完整性約束沒有被破壞。這是說數據庫事務不能破壞關係數據的完整性以及業務邏輯上的一致性。例如：對銀行轉帳事務，不管事務成功還是失敗，應該保證事務結束後ACCOUNT表中aaa和bbb的存款總額為2000元。
 隔離性多個事務並發訪問時，事務之間是隔離的，一個事務不應該影響其它事務運行效果。這指的是在並發環境中，當不同的事務同時操縱相同的數據時，每個事務都有各自的完整數據空間。由並發事務所做的修改必須與任何其他並發事務所做的修改隔離。事務查看數據更新時，數據所處的狀態要么是另一事務修改它之前的狀態，要么是另一事務修改它之後的狀態，事務不會查看到中間狀態的數據。
 持久性，意味著在事務完成以後，該事務所對數據庫所作的更改便持久的保存在數據庫之中，並不會被回滾。即使出現了任何事故比如斷電等，事務一旦提交，則持久化保存在數據庫中。
+
 36.32位整數256和255按位異或後的結果是（511）
+
 37.unix/linux 系統將所有的I/O設備模型化為文件,c語言中的（stdin）,(stdout)和(stderr)分別表示標準輸入，標準輸出，標準錯誤。
+
 38.k層二叉樹最多有2^k - 1 個結點。
+
 39.中綴算式(8 + x*y)-2x/3的後綴算式是_。
+
 40.對以下二叉樹進行前序遍歷的結果是（ABDGCEHF）
  二叉樹
+
 41.寫出一個C類ip地址（192.168.1.105）,該ip地址一個合法的網格掩碼是（255.255.255.224）.
+
 42.c/c++程序運行時有堆內存與棧內存之分，請寫一個語句在堆中分配一個整數：(int a = new int(4)),在棧內存中分配一個整數：（int a = 5）。
+
 43.簡述從C/C++源代碼生成可執行文件所經歷的幾個過程和每個過程中所做的事情。
 預編譯-》編譯-》鏈接-》執行
+
 44.簡述TCP建立連接的過程，最好能畫出時序圖。
 三次握手；
+
 45.有一個c語言函數
 unsigned int getN(unsigned int v){
     v--;
@@ -744,6 +752,7 @@ unsigned int getN(unsigned int v){
 }
 請問這個函數的功能是什麼？
 返回的結果是v 或者2 ^ 跟下v次方+ 1（比如125返回128，128返回的就是128）
+
 46.列出c語言中static關鍵字的用法。
 static 關鍵字至少有下列幾個作用：
 （1）函數體內static 變量的作用範圍為該函數體，不同於auto 變量，該變量的內存只被分配一次，因此其值在下次調用時仍維持上次的值；
@@ -751,54 +760,72 @@ static 關鍵字至少有下列幾個作用：
 （3）在模塊內的static 函數只可被這一模塊內的其它函數調用，這個函數的使用範圍被限制在聲明它的模塊內；
 （4）在類中的static 成員變量屬於整個類所擁有，對類的所有對像只有一份拷貝；
 （5）在類中的static 成員函數屬於整個類所擁有，這個函數不接收this 指針，因而只能訪問類的static 成員變量。
+
 47.解釋一下Unity3D中的協程（coroutine）是什麼？並舉例說明
 在主線程運行的同時開啟另一段邏輯處理，來協助當前程序的執行，協程很像多線程，但是不是多線程，Unity的協程實在每幀結束之後去檢測yield的條件是否滿足。
+
 48.物體自旋轉使用的函數叫什麼？物體繞某點旋轉使用函數叫什麼？
 物體自旋轉函數transform.Rotate，物體繞某點旋轉函數：transform.RotateAround
+
 49.使用prefab預製物體有什麼好處？
 1.Prefab一個重要的優勢就是編輯prefab資源後，場景中所有使用Prefab克隆的遊戲對象將全部使用新編輯的資源，無需一個一個的給場景中的對象賦值。
 2.當遊戲中需要頻繁創建一個物體時，使用Prefab能夠節省內存。
 3.當你在一個場景中增加一個Prefabs，你就實例化了一個Prefabs。
+
 50.設有如下關係表R1和R2
 R1(NO, NAME, SEX, AGE, CLASS)
 R2(NO, SUBJECT, SCORE)
 主關鍵字是NO,其中NO為學號，NAME為姓名，SEX為性別，AGE為年齡，CLASS為班號，SUBJECT為科目，SCORE為成績。寫出實現下列功能的SQL語句。查找學號為20的學生的姓名，科目，成績。
 SELECT NAME,SUBJECT,SCORE FORM R1 INNER JOIN R2 ON R1.NO=R2.NO WHERE R1.NO = 20
+
 51.描述多人聯網中位置的同步和聊天通訊的實現方法，並編程寫出如何實現多人協同中交互操作。（交互操作例如，血值為100的兩個角色人物可以相互射擊雙方，射擊一次減去血值10，當血值為0的時候證明已經死亡）
 #
+
 52.當實例化一個prefab對象，prefab對像上面掛載了一個繼承MonoBehaviour的腳本
 1.請問這個腳本分別會按順序調用哪些函數，並列出哪些函數是反復進去的
 #
 2.請問當這個實例化對像先調用了SetActive(false)，然後又調用了SetActive(true),那麼這個腳本依次會調用哪些函數方法？
 #
 3.如果在腳本的Awake（）函數中，調用了this.gameObject.AddComponent()(PS:GameController為另一個繼承Mono的腳本類)，請問此時腳本函數的調用順序是否發生變化？
+
 53.if(go.CompareTag(“Enemy”))和if（go.tag == “Enemy”）兩種判斷方法哪種是合適的，為什麼？
 第一種合適，因為第二種會佔用更多內存。
+
 54.DestroyImmediate和Destroy的區別是？
 DestroyImmeditate 銷毀對象的時候，會立即釋放資源。Destroy只是從該場景銷毀，但是還在內存當中。
+
 55.詳細說明Unity中資源加載的方法，以及他們的區別？
 1.通過Resources模塊，調用它的load函數：可以直接load並返回某個類型的Object，前提是要把這個資源放在Resource命名的文件夾下，Unity不關有沒有場景引用，都會將其全部打入到安裝包中。
 2.通過bundle的形式：即將資源打成asset bundle 放在服務器或本地磁盤，然後使用WWW模塊get 下來，然後從這個bundle中load某個object。
+
 56.從代碼角度上如何進行內存優化？
 #
+
 57.分別寫出Invoke和協程的幾種用法？
 #
+
 58.以下函數的功能是計算斐波那契數列的第n項，請填空
 int func(int n)
 {
     if(n<=2） return 1;
     return n + func(n-1);
 }
+
 59.C語言中宏定義中若有多行，可以使用字符（\）.
+
 60.C語言中32位整數能表達的最小的數是-2^31~2^31-1.
+
 61.使用（點乘）向量運算可以很方便地計算出三維空間中兩個單位向量之間夾角的cos值。
+
 62.類unix系統中某文件的權限為：drw-r–r–，用八進制數值形式表示該權限為(411),首位d代表目錄（文件夾）
+
 63.若有如下程序段，其中s，a，b，c均已定義為整型變量，且a，c均已賦值（c大於0）
 s = a;
 for(b = 1; b <= c; b++)
     s = s + 1;
 則與上述程序段功能等價的賦值語句是（B）
 As = a + b Bs = a + c Cs = s + c Ds = b + c
+
 64.簡述static和const關鍵字的作用
 static 關鍵字至少有下列幾個作用：
 （1）函數體內static 變量的作用範圍為該函數體，不同於auto 變量，該變量的內存只被分配一次，因此其值在下次調用時仍維持上次的值；
@@ -813,6 +840,7 @@ const 關鍵字至少有下列幾個作用：
 （4）對於類的成員函數，若指定其為const 類型，則表明其是一個常函數，不能修改類的成員變量
     ；
 （5）對於類的成員函數，有時候必須指定其返回值為const 類型，以使得其返回值不為“左值”。
+
 65.用你熟悉的語言及你認為最簡潔的方法書寫計算s = 1!+2!+3!+…+num!的代碼。num為輸入，s為輸出。（！代表階乘3！= 1 * 2 * 3
 Console.ReadLine(num)
 int s = 0;
@@ -835,6 +863,7 @@ public int JieCheng(int num)
         return num * JieCheng(num - 1)
     }
 }
+
 66.用你熟悉的語言從一個字符串中去掉相連的重複字符，例如原字符串“adffjkljaalkjhl”變為“adfjkljalkjhl”
 int GetResult(char[] input, char[] output)  
 {  
@@ -869,66 +898,84 @@ int GetResult(char[] input, char[] output)
 
 1.哪種實時光源是Unity中沒有的？（D）
 A.點光源B.方向光C.聚光燈D.日光燈
+
 2.如何在Unity中創建地形系統？(D)
 A.Terrain->Create Terrain B.Component->Create Terrain
 C.Asset->Create Terrain D.Windows->Create Terrain
+
 3.以下哪種操作步驟可以在場景中添加“Wind Zone”?(B)
 A.Terrain->Wind Zone B.GameObject->Create other->Wind Zone
 C.Component->Physics->Wind Zone D.Assets->Create->Wind Zone
+
 4.在Unity編輯器中創建一個Directional Light，以下步驟正確的是？(B)
 A.Edit->Rendering Setting->Directional Light
 B.GameObject->Create Other->Directional Light
 C.Component->Rendering->Directional Light
 D.Assets->Directional Light
+
 5.下列哪一項不屬於Camera中的“Clear Flags”？（D）
 A.Skybox B.Solid Color C.Depth Only D.Background
+
 6.以下哪種腳本語言是Unity編輯器所不支持的？（D）
 A.Javascript BC# C.Boo D.Perl
+
 7.對於Prefab，以下說法錯誤的是？（D）
 A.Prefab資源可以在項目中多次重複使用
 B.由Prefab實例出的GameObject，其在Hierarchy試圖中表現為藍色
 C.Prefab上的組件信息一經改變，其實例出的GameObject也會自動改變
 D.實例出的GameObject上的組件信息一經改變，其對應出的Prefab也會自動改變
+
 8.下面哪種做法可以打開Unity的Asset Store？（A）
 A.Windows->Asset Store
 B.Edit->Asset Store
 C.File->Asset Store
 D.Assets->Asset Store
+
 9.在哪個面板中可以修改物體的空間屬性，如位置，朝向，大小等（B）
 A.Project B.Inspector C.Hierarchy D.Toolbar
+
 10.如何為一個Asset 資源設定一個Label，從而能夠方便準確的搜索到？（D）
 A.在Project窗口中選中一個Asset，右鍵->Create->Label
 B.在Project窗口中選中一個Asset，右鍵->Add Label
 C.在P​​roject窗口中選中一個Asset，在Inspector窗口中點擊添加Label的圖標
 D.在Project窗口中選中一個Asset，在Inspector窗口中點擊按鈕“Add Label”
+
 11.Mecanim系統中，Body Mask的作用是？（D）
 A指定身體的某一部分是否參與骨骼動畫
 B.指定身體的某一部分是否參與物理模擬
 C.指定身體的某一部分是否可以輸出骨骼信息
 D.指定身體的某一部分是否參與渲染
+
 12.以下哪種操作步驟可以打開Unity編輯器的Lightmapping視圖？（C）
 A.File->Lightmapping B.Assets->Lightmapping
 C.Windows->Lightmapping D.Component->Lightmapping
+
 13.下列關於光照貼圖，說法錯誤的是？（C）
 A.使用光照貼圖比使用實時光源渲染要快
 B.可以降低遊戲內存消耗
 C.可以增加場景真實感
 D.多個物體可以使用同一張光照貼圖
+
 14.如何為物體添加光照貼圖所使用的UV?(B)
 A.不用添加，任何時候都會自動生成
 B.更改物體導入設置，勾選“Generate Lighting UVs”
 C.更改物體導入設置，勾選“Swap UVs”
 D.更改物體導入設置，在UVs選項中選擇“Use Lightmaps”
+
 15.在哪個模塊下可以修改Render Path？（A）
 A.Camera B.Light C.Render Settings D.Project Setting->Quality
+
 16.以下哪項技術下不是目前Unity所支持的Occlusion Culling技術？（D）
 A.PVS only B.PVS and dynamic objets
 C.Automatic Portal Generation D.Dynamic Only
+
 17.關於Vector3的API，以下說法正確的是？（C）
 A.Vector3.normalize可以獲取一個三維向量的法線向量
 B.Vector3.magnitude可以獲取一個三維向量的長度
 C.Vector3.forward與Vector3（0，0，1）是一樣的
 D.Vector3.Dot(向量A，向量B)是用來計算向量A與向量B的叉乘
+
 18.下列那些選項不是網格層屬性的固有選項？（B）
 A.Default B.Walkable C.Not Walkable D.Jump
+
 19.寫出你對遊戲的理解及遊戲在生活中的作用，對Unity3D軟件理解最深入的地方
